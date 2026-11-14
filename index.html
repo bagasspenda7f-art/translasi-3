@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Translasi (Pergeseran) — Matematika Kelas XI</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          boxShadow: {
+            'soft': '0 4px 20px -2px rgba(15, 23, 42, 0.06)',
+            'glow': '0 0 24px -4px rgba(79, 70, 229, 0.25)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- KaTeX CSS & JS for Crisp Mathematical Notation -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+  <style>
+    /* Custom scrollbar & subtle animations */
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      overflow-x: hidden;
+    }
+
+    .katex {
+      font-size: 1.05em;
+    }
+
+    .katex-display {
+      margin: 0.65em 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0.25rem 0;
+    }
+
+    /* Custom Range Input Styling */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #4f46e5;
+      cursor: pointer;
+      border: 2px solid #ffffff;
+      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.4);
+      transition: transform 0.15s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    .range-emerald::-webkit-slider-thumb {
+      background: #059669;
+      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.4);
+    }
+    .range-orange::-webkit-slider-thumb {
+      background: #ea580c;
+      box-shadow: 0 2px 6px rgba(234, 88, 12, 0.4);
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-up {
+      animation: fadeSlideUp 0.3s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-indigo-100 selection:text-indigo-900">
+
+  <!-- Toast Notification Container (Replaces alert/confirm) -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- ===================================================================== -->
+  <!-- HEADER & MAIN NAVIGATION                                              -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Top Bar: Brand + Live Progress & Score -->
+      <div class="py-3.5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <!-- Brand Identity -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-blue-600 text-white flex items-center justify-center shadow-glow shrink-0">
+            <!-- Vector Translation Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7m0 0H9m8 0v8" />
+              <circle cx="6" cy="18" r="2" fill="currentColor" />
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">Matematika Kelas XI</span>
+              <span class="hidden sm:inline-block text-xs text-slate-400 font-medium">Transformasi Geometri</span>
+            </div>
+            <h1 class="font-display text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">
+              Translasi (Pergeseran)
+            </h1>
+          </div>
+        </div>
+
+        <!-- Learning Progress Bar & Live Score Indicator -->
+        <div class="flex items-center gap-3 sm:gap-5 bg-slate-50 px-3.5 py-2 rounded-2xl border border-slate-200/80">
+          <!-- Progress Belajar -->
+          <div class="flex-1 sm:w-44">
+            <div class="flex justify-between items-center text-xs mb-1">
+              <span class="font-semibold text-slate-600">Progres Belajar</span>
+              <span id="header-progress-text" class="font-bold text-indigo-600">15%</span>
+            </div>
+            <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+              <div id="header-progress-bar" class="h-full bg-gradient-to-r from-indigo-600 to-blue-500 rounded-full transition-all duration-500" style="width: 15%"></div>
+            </div>
+          </div>
+
+          <div class="h-7 w-px bg-slate-200"></div>
+
+          <!-- Indikator Skor Langsung -->
+          <div class="flex items-center gap-2 shrink-0">
+            <div class="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div>
+              <div class="text-[11px] font-medium text-slate-500 leading-none">Skor Asesmen</div>
+              <div class="text-sm font-extrabold text-slate-900 mt-0.5">
+                <span id="header-score">0</span><span class="text-slate-400 font-semibold">/100</span>
+                <span id="header-answered-badge" class="ml-1 text-[11px] font-semibold text-slate-500">(0/10)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Navigation Tabs -->
+      <nav class="flex gap-1.5 sm:gap-2 pb-3 overflow-x-auto no-scrollbar" aria-label="Navigasi Utama">
+        <button id="tab-btn-materi" onclick="switchTab('materi')" class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all whitespace-nowrap bg-indigo-600 text-white shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+          <span>Materi & Konsep</span>
+        </button>
+
+        <button id="tab-btn-simulasi" onclick="switchTab('simulasi')" class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200/70">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+          <span>Simulasi Kartesius Interaktif</span>
+        </button>
+
+        <button id="tab-btn-asesmen" onclick="switchTab('asesmen')" class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200/70">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+          </svg>
+          <span>Asesmen & Pembahasan (10 Soal)</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- MAIN CONTENT CONTAINER                                                -->
+  <!-- ===================================================================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+    <!-- =================================================================== -->
+    <!-- TAB 1: MATERI & KONSEP                                              -->
+    <!-- =================================================================== -->
+    <section id="section-materi" class="space-y-8 animate-fade-up">
+
+      <!-- Hero Banner Pengertian Translasi -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-700 via-blue-700 to-indigo-900 text-white p-6 sm:p-8 lg:p-10 shadow-soft">
+        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div class="lg:col-span-8 space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-indigo-100 text-xs font-semibold">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              Konsep Dasar Transformasi Isometri
+            </div>
+            <h2 class="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight">
+              Apa itu Translasi (Pergeseran)?
+            </h2>
+            <p class="text-indigo-100 text-sm sm:text-base leading-relaxed max-w-2xl">
+              <strong>Translasi</strong> adalah transformasi geometri yang memindahkan setiap titik pada suatu bidang dengan <strong>jarak dan arah tertentu</strong>. Translasi merupakan <em>transformasi isometri</em>, artinya proses pergeseran ini <strong>tidak mengubah bentuk, ukuran, maupun orientasi</strong> objek—hanya memindahkan posisinya saja.
+            </p>
+            <div class="pt-2 flex flex-wrap gap-3">
+              <button onclick="switchTab('simulasi')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-indigo-700 font-bold text-sm hover:bg-indigo-50 transition shadow-sm">
+                <span>Coba di Simulasi Kartesius</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </button>
+              <button onclick="switchTab('asesmen')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600/60 border border-indigo-400/40 text-white font-semibold text-sm hover:bg-indigo-600/80 transition">
+                <span>Langsung Latihan Soal</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Ilustrasi Vektor Pergeseran SVG -->
+          <div class="lg:col-span-4 flex justify-center">
+            <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 w-full max-w-xs">
+              <svg viewBox="0 0 240 170" class="w-full h-auto">
+                <!-- Grid halus -->
+                <g stroke="rgba(255,255,255,0.12)" stroke-width="1">
+                  <line x1="20" y1="30" x2="220" y2="30" />
+                  <line x1="20" y1="70" x2="220" y2="70" />
+                  <line x1="20" y1="110" x2="220" y2="110" />
+                  <line x1="20" y1="150" x2="220" y2="150" />
+                  <line x1="40" y1="15" x2="40" y2="160" />
+                  <line x1="90" y1="15" x2="90" y2="160" />
+                  <line x1="140" y1="15" x2="140" y2="160" />
+                  <line x1="190" y1="15" x2="190" y2="160" />
+                </g>
+                <!-- Komponen a (horizontal) & b (vertikal) -->
+                <line x1="55" y1="125" x2="175" y2="125" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="4 3" />
+                <line x1="175" y1="125" x2="175" y2="45" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="4 3" />
+                <text x="115" y="140" fill="#fde68a" font-size="11" font-weight="bold" text-anchor="middle">+a (kanan)</text>
+                <text x="183" y="88" fill="#fde68a" font-size="11" font-weight="bold">+b (atas)</text>
+
+                <!-- Vektor Translasi T -->
+                <defs>
+                  <marker id="heroArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                    <path d="M0,0 L0,6 L7,3 z" fill="#fb923c" />
+                  </marker>
+                </defs>
+                <line x1="55" y1="125" x2="170" y2="48" stroke="#fb923c" stroke-width="2.5" marker-end="url(#heroArrow)" />
+                <text x="103" y="75" fill="#fed7aa" font-size="12" font-weight="bold">T = (a, b)</text>
+
+                <!-- Titik Awal A -->
+                <circle cx="55" cy="125" r="6" fill="#60a5fa" stroke="#ffffff" stroke-width="2" />
+                <text x="55" y="112" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">A(x, y)</text>
+
+                <!-- Titik Bayangan A' -->
+                <circle cx="175" cy="45" r="6" fill="#34d399" stroke="#ffffff" stroke-width="2" />
+                <text x="175" y="31" fill="#a7f3d0" font-size="12" font-weight="bold" text-anchor="middle">A'(x+a, y+b)</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 Kartu Konsep & Rumus Utama -->
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-display text-xl font-bold text-slate-900">Rumus & Konsep Utama Translasi</h3>
+          <span class="text-xs font-medium text-slate-500">Notasi Matriks Vektor Kolom</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Kartu 1: Translasi Titik -->
+          <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-soft flex flex-col justify-between hover:border-indigo-300 transition">
+            <div>
+              <div class="flex items-center gap-3 mb-3">
+                <span class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 font-display font-extrabold text-sm flex items-center justify-center">1</span>
+                <h4 class="font-display font-bold text-slate-900 text-lg">Translasi Titik</h4>
+              </div>
+              <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                Jika titik $A(x, y)$ digeser oleh vektor translasi $T = \begin{pmatrix} a \\ b \end{pmatrix}$, maka koordinat bayangannya adalah $A'(x', y')$:
+              </p>
+              <div class="bg-slate-50 border border-slate-200/80 rounded-xl p-3.5 text-center">
+                $$A(x, y) \xrightarrow{T = \begin{pmatrix} a \\ b \end{pmatrix}} A'(x+a, y+b)$$
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-600 space-y-1">
+              <div>• $a > 0$: geser ke <strong>kanan</strong>, $a < 0$: geser ke <strong>kiri</strong></div>
+              <div>• $b > 0$: geser ke <strong>atas</strong>, $b < 0$: geser ke <strong>bawah</strong></div>
+            </div>
+          </div>
+
+          <!-- Kartu 2: Komposisi Translasi -->
+          <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-soft flex flex-col justify-between hover:border-indigo-300 transition">
+            <div>
+              <div class="flex items-center gap-3 mb-3">
+                <span class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 font-display font-extrabold text-sm flex items-center justify-center">2</span>
+                <h4 class="font-display font-bold text-slate-900 text-lg">Komposisi Translasi</h4>
+              </div>
+              <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                Dua pergeseran berurutan oleh $T_1 = \begin{pmatrix} a_1 \\ b_1 \end{pmatrix}$ dilanjutkan $T_2 = \begin{pmatrix} a_2 \\ b_2 \end{pmatrix}$ dapat diwakili oleh satu translasi tunggal:
+              </p>
+              <div class="bg-slate-50 border border-slate-200/80 rounded-xl p-3.5 text-center">
+                $$T_2 \circ T_1 = \begin{pmatrix} a_1 + a_2 \\ b_1 + b_2 \end{pmatrix}$$
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-600 space-y-1">
+              <div>• Bersifat <strong>komutatif</strong>: $T_2 \circ T_1 = T_1 \circ T_2$</div>
+              <div>• Bayangan akhir: $A''(x + a_1 + a_2,\; y + b_1 + b_2)$</div>
+            </div>
+          </div>
+
+          <!-- Kartu 3: Translasi Garis & Kurva -->
+          <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-soft flex flex-col justify-between hover:border-indigo-300 transition">
+            <div>
+              <div class="flex items-center gap-3 mb-3">
+                <span class="w-8 h-8 rounded-lg bg-purple-100 text-purple-700 font-display font-extrabold text-sm flex items-center justify-center">3</span>
+                <h4 class="font-display font-bold text-slate-900 text-lg">Translasi Garis & Kurva</h4>
+              </div>
+              <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                Untuk menentukan persamaan bayangan kurva $f(x, y) = 0$ oleh $T = \begin{pmatrix} a \\ b \end{pmatrix}$, nyatakan $x$ dan $y$ dalam $x'$ dan $y'$:
+              </p>
+              <div class="bg-slate-50 border border-slate-200/80 rounded-xl p-3.5 text-center">
+                $$x = x' - a \quad \text{dan} \quad y = y' - b$$
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-600 space-y-1">
+              <div>• Substitusikan ke persamaan awal $f(x, y) = 0$</div>
+              <div>• Hilangkan tanda aksen ($'$) pada hasil akhir</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sifat-Sifat Translasi -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-7 shadow-soft">
+        <h3 class="font-display text-lg sm:text-xl font-bold text-slate-900 mb-4">Sifat-Sifat Penting Translasi</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-100 flex items-start gap-3">
+            <div class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+              </svg>
+            </div>
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm">Bentuk & Ukuran Tetap</h4>
+              <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                Bangun hasil translasi selalu kongruen dengan bangun asal. Panjang sisi, besar sudut, keliling, maupun <strong>luas bangun tidak berubah</strong>.
+              </p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-100 flex items-start gap-3">
+            <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+              </svg>
+            </div>
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm">Kesejajaran Garis Tetap</h4>
+              <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                Suatu garis lurus yang ditranslasikan akan menghasilkan garis bayangan yang <strong>selalu sejajar</strong> dengan garis semula (memiliki gradien $m$ yang sama).
+              </p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-100 flex items-start gap-3">
+            <div class="w-9 h-9 rounded-xl bg-amber-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </div>
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm">Setiap Titik Bergeser Sama</h4>
+              <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                Ruas garis berarah yang menghubungkan setiap titik asal dengan titik bayangannya memiliki <strong>panjang dan arah yang identik</strong> dengan vektor $T$.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contoh Soal Terbimbing Interaktif -->
+      <div class="space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <div>
+            <h3 class="font-display text-xl font-bold text-slate-900">Contoh Soal Terbimbing</h3>
+            <p class="text-sm text-slate-500">Coba kerjakan terlebih dahulu, lalu klik tombol untuk memeriksa langkah penyelesaiannya.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Contoh 1 -->
+          <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-soft space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700">Contoh 1 • Komposisi Titik</span>
+              <button onclick="loadPresetToSim('point', {x: -2, y: 3, a: 5, b: -4})" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 underline">
+                Visualisasikan →
+              </button>
+            </div>
+            <p class="text-sm text-slate-800 leading-relaxed">
+              Titik $M(-2, 3)$ ditranslasikan oleh $T_1 = \begin{pmatrix} 4 \\ -1 \end{pmatrix}$ dan dilanjutkan oleh $T_2 = \begin{pmatrix} 1 \\ -3 \end{pmatrix}$. Tentukan koordinat bayangan akhir titik $M$!
+            </p>
+            <button onclick="toggleGuidedStep('guided-1', this)" class="w-full py-2.5 px-4 rounded-xl bg-slate-900 text-white text-xs sm:text-sm font-semibold hover:bg-slate-800 transition flex items-center justify-center gap-2">
+              <span>Tampilkan Langkah Penyelesaian</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div id="guided-1" class="hidden bg-emerald-50/70 border border-emerald-200 rounded-xl p-4 text-sm text-slate-800 space-y-2 animate-fade-up">
+              <div class="font-bold text-emerald-800">Langkah Penyelesaian:</div>
+              <p>1. Hitung translasi total $T_{\text{total}} = T_1 + T_2$:</p>
+              <div class="bg-white/80 rounded-lg p-2.5 text-center">
+                $$T_{\text{total}} = \begin{pmatrix} 4 \\ -1 \end{pmatrix} + \begin{pmatrix} 1 \\ -3 \end{pmatrix} = \begin{pmatrix} 5 \\ -4 \end{pmatrix}$$
+              </div>
+              <p>2. Tentukan bayangan titik $M(-2, 3)$:</p>
+              <div class="bg-white/80 rounded-lg p-2.5 text-center">
+                $$M''(-2 + 5,\; 3 + (-4)) = M''(3, -1)$$
+              </div>
+            </div>
+          </div>
+
+          <!-- Contoh 2 -->
+          <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-soft space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700">Contoh 2 • Translasi Garis</span>
+              <button onclick="loadPresetToSim('line', {m: 2, c: -3, a: 3, b: 2})" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 underline">
+                Visualisasikan →
+              </button>
+            </div>
+            <p class="text-sm text-slate-800 leading-relaxed">
+              Tentukan persamaan bayangan garis $y = 2x - 3$ jika digeser oleh vektor translasi $T = \begin{pmatrix} 3 \\ 2 \end{pmatrix}$!
+            </p>
+            <button onclick="toggleGuidedStep('guided-2', this)" class="w-full py-2.5 px-4 rounded-xl bg-slate-900 text-white text-xs sm:text-sm font-semibold hover:bg-slate-800 transition flex items-center justify-center gap-2">
+              <span>Tampilkan Langkah Penyelesaian</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div id="guided-2" class="hidden bg-emerald-50/70 border border-emerald-200 rounded-xl p-4 text-sm text-slate-800 space-y-2 animate-fade-up">
+              <div class="font-bold text-emerald-800">Langkah Penyelesaian:</div>
+              <p>1. Dari $T = \begin{pmatrix} 3 \\ 2 \end{pmatrix}$, diperoleh hubungan substitusi:</p>
+              <div class="bg-white/80 rounded-lg p-2 text-center">
+                $$x' = x + 3 \Rightarrow x = x' - 3 \quad \text{dan} \quad y' = y + 2 \Rightarrow y = y' - 2$$
+              </div>
+              <p>2. Substitusikan ke persamaan $y = 2x - 3$:</p>
+              <div class="bg-white/80 rounded-lg p-2 text-center">
+                $$y' - 2 = 2(x' - 3) - 3 \Rightarrow y' = 2x' - 6 - 3 + 2 \Rightarrow y = 2x - 7$$
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- TAB 2: SIMULASI KARTESIUS INTERAKTIF                                -->
+    <!-- =================================================================== -->
+    <section id="section-simulasi" class="hidden space-y-6 animate-fade-up">
+
+      <!-- Mode Selector & Action Toolbar -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 p-4 sm:p-5 shadow-soft flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-indigo-600">Laboratorium Visual</span>
+          <h2 class="font-display text-xl font-extrabold text-slate-900">Simulasi Bidang Koordinat Kartesius</h2>
+        </div>
+
+        <!-- 3 Simulation Mode Buttons -->
+        <div class="flex flex-wrap gap-2">
+          <button id="sim-mode-point" onclick="setSimMode('point')" class="sim-mode-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow-sm transition">
+            Mode 1: Titik $A(x, y)$
+          </button>
+          <button id="sim-mode-triangle" onclick="setSimMode('triangle')" class="sim-mode-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200/70 transition">
+            Mode 2: Segitiga $ABC$
+          </button>
+          <button id="sim-mode-line" onclick="setSimMode('line')" class="sim-mode-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200/70 transition">
+            Mode 3: Garis $y = mx + c$
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Simulation Workspace: Canvas Left + Controls & Live Formula Right -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+        <!-- Left Column: Interactive HTML5 Canvas -->
+        <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200/80 p-4 sm:p-5 shadow-soft space-y-4">
+          <!-- Color Legend & Animation Controls -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-100">
+            <div class="flex flex-wrap items-center gap-3 sm:gap-4 text-xs font-semibold">
+              <span class="inline-flex items-center gap-1.5 text-slate-700">
+                <span class="w-3 h-3 rounded-full bg-blue-600 inline-block"></span>
+                Objek Awal
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-slate-700">
+                <span class="w-3 h-3 rounded-full bg-emerald-600 inline-block"></span>
+                Bayangan ($'$)
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-slate-700">
+                <span class="w-5 border-t-2 border-dashed border-orange-600 inline-block"></span>
+                Vektor $T$
+              </span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button onclick="resetSimulation()" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+                Reset
+              </button>
+              <button id="btn-animate-sim" onclick="triggerShiftAnimation()" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white text-xs font-bold shadow-sm transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                </svg>
+                <span>Animasikan Pergeseran</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Responsive Square Canvas Wrapper -->
+          <div id="canvas-wrapper" class="relative w-full aspect-square max-h-[540px] mx-auto rounded-xl overflow-hidden border border-slate-200 bg-slate-50/50">
+            <canvas id="cartesian-canvas" class="block w-full h-full"></canvas>
+          </div>
+
+          <p class="text-xs text-slate-500 text-center">
+            Rentang koordinat Kartesius: $-10 \le x \le 10$ dan $-10 \le y \le 10$. Gunakan slider atau tombol <strong>+/−</strong> untuk mengamati pergeseran secara presisi.
+          </p>
+        </div>
+
+        <!-- Right Column: Parameter Controls + Live Formula Panel -->
+        <div class="lg:col-span-5 space-y-6">
+
+          <!-- Panel Kontrol Parameter -->
+          <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-soft space-y-5">
+            <div class="flex items-center justify-between">
+              <h3 class="font-display font-bold text-slate-900 text-base">Kontrol Parameter & Vektor</h3>
+              <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700">Real-Time</span>
+            </div>
+
+            <!-- Dynamic Object Controls Container -->
+            <div id="sim-object-controls" class="space-y-4">
+              <!-- Populated dynamically by JS based on active mode -->
+            </div>
+
+            <hr class="border-slate-100" />
+
+            <!-- Vector Translation T = (a, b) Controls (Always Present) -->
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-orange-600">Komponen Vektor Translasi $T = \begin{pmatrix} a \\ b \end{pmatrix}$</span>
+              </div>
+
+              <!-- Slider a -->
+              <div class="bg-orange-50/50 border border-orange-100 rounded-xl p-3 space-y-2">
+                <div class="flex items-center justify-between">
+                  <label class="text-xs font-bold text-slate-700">Geser Horizontal ($a$)</label>
+                  <div class="flex items-center gap-1.5">
+                    <button onclick="stepSimParam('a', -1)" class="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 font-bold text-slate-700 flex items-center justify-center">−</button>
+                    <span id="val-a" class="w-10 text-center font-display font-extrabold text-sm text-orange-600">4</span>
+                    <button onclick="stepSimParam('a', 1)" class="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 font-bold text-slate-700 flex items-center justify-center">+</button>
+                  </div>
+                </div>
+                <input id="slider-a" type="range" min="-8" max="8" step="1" value="4" oninput="updateSimParam('a', this.value)" class="w-full range-orange" />
+              </div>
+
+              <!-- Slider b -->
+              <div class="bg-orange-50/50 border border-orange-100 rounded-xl p-3 space-y-2">
+                <div class="flex items-center justify-between">
+                  <label class="text-xs font-bold text-slate-700">Geser Vertikal ($b$)</label>
+                  <div class="flex items-center gap-1.5">
+                    <button onclick="stepSimParam('b', -1)" class="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 font-bold text-slate-700 flex items-center justify-center">−</button>
+                    <span id="val-b" class="w-10 text-center font-display font-extrabold text-sm text-orange-600">3</span>
+                    <button onclick="stepSimParam('b', 1)" class="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 font-bold text-slate-700 flex items-center justify-center">+</button>
+                  </div>
+                </div>
+                <input id="slider-b" type="range" min="-8" max="8" step="1" value="3" oninput="updateSimParam('b', this.value)" class="w-full range-orange" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel Perhitungan Langsung (Live Formula) -->
+          <div class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-2xl p-5 shadow-soft space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <h3 class="font-display font-bold text-sm sm:text-base">Perhitungan Langsung (Live Formula)</h3>
+              </div>
+              <span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-white/10 text-indigo-200">Otomatis</span>
+            </div>
+
+            <div id="live-formula-content" class="bg-white/5 border border-white/10 rounded-xl p-4 text-sm space-y-2.5 leading-relaxed">
+              <!-- Populated dynamically with KaTeX -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- TAB 3: ASESMEN & PEMBAHASAN (10 SOAL)                               -->
+    <!-- =================================================================== -->
+    <section id="section-asesmen" class="hidden space-y-6 animate-fade-up">
+
+      <!-- Assessment Header & Question Navigator Pills -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-soft space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <h2 class="font-display text-xl font-extrabold text-slate-900">Asesmen Interaktif Translasi</h2>
+            <p class="text-xs sm:text-sm text-slate-500">Pilih jawaban untuk melihat kunci jawaban dan pembahasan lengkap secara otomatis.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="showSummaryModal()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold shadow-sm transition">
+              Lihat Hasil Akhir
+            </button>
+          </div>
+        </div>
+
+        <!-- Difficulty Legend -->
+        <div class="flex flex-wrap items-center gap-2 text-xs">
+          <span class="font-semibold text-slate-500 mr-1">Kategori Soal:</span>
+          <span class="px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800">1–3: Mudah</span>
+          <span class="px-2.5 py-0.5 rounded-full font-bold bg-blue-100 text-blue-800">4–6: Sedang</span>
+          <span class="px-2.5 py-0.5 rounded-full font-bold bg-orange-100 text-orange-800">7–8: Sulit</span>
+          <span class="px-2.5 py-0.5 rounded-full font-bold bg-purple-100 text-purple-800">9–10: TKA / HOTS</span>
+        </div>
+
+        <!-- Numbered Navigation Pills (1 to 10) -->
+        <div id="quiz-nav-pills" class="grid grid-cols-5 sm:grid-cols-10 gap-2 pt-1">
+          <!-- Generated dynamically by JS -->
+        </div>
+      </div>
+
+      <!-- Active Question Card -->
+      <div id="quiz-question-card" class="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-soft space-y-6">
+        <!-- Populated dynamically by JS -->
+      </div>
+
+      <!-- Summary & Performance Breakdown Card (Shown on demand or when all 10 answered) -->
+      <div id="quiz-summary-card" class="hidden bg-white rounded-3xl border-2 border-indigo-200 p-6 sm:p-8 shadow-soft space-y-6 animate-fade-up">
+        <!-- Populated dynamically by JS -->
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- FOOTER                                                                -->
+  <!-- ===================================================================== -->
+  <footer class="border-t border-slate-200/80 bg-white mt-12 py-5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+      <div>Modul Pembelajaran Interaktif Matematika Kelas XI • Materi <strong>Translasi (Pergeseran)</strong></div>
+      <div>Visualisasi Kartesius & Rendering Notasi Matriks KaTeX</div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT APPLICATION LOGIC                                          -->
+  <!-- ===================================================================== -->
+  <script>
+    // =========================================================================
+    // 1. KATEX RENDERING HELPER
+    // =========================================================================
+    function renderMath(element = document.body) {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(element, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false },
+            { left: '\\(', right: '\\)', display: false },
+            { left: '\\[', right: '\\]', display: true }
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    // Non-blocking Toast Helper
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const colors = {
+        info: 'bg-slate-900 text-white border-slate-700',
+        success: 'bg-emerald-600 text-white border-emerald-500',
+        warning: 'bg-orange-600 text-white border-orange-500'
+      };
+      toast.className = `pointer-events-auto px-4 py-2.5 rounded-xl border shadow-lg text-xs sm:text-sm font-semibold flex items-center gap-2 animate-fade-up ${colors[type] || colors.info}`;
+      toast.textContent = message;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(6px)';
+        toast.style.transition = 'all 0.25s ease';
+        setTimeout(() => toast.remove(), 250);
+      }, 2600);
+    }
+
+    // =========================================================================
+    // 2. APPLICATION STATE & PROGRESS TRACKING
+    // =========================================================================
+    const appState = {
+      activeTab: 'materi',
+      visitedTabs: new Set(['materi']),
+      guidedOpened: new Set(),
+      simInteracted: false,
+      // Simulation State
+      simMode: 'point', // 'point' | 'triangle' | 'line'
+      simParams: {
+        // Point mode
+        px: -3, py: 2,
+        // Triangle mode (vertices A, B, C)
+        tx: -5, ty: -4, // Anchor vertex A; B = (tx+4, ty), C = (tx+2, ty+4)
+        // Line mode: y = m*x + c
+        m: 1, c: -2,
+        // Translation vector T = (a, b)
+        a: 4, b: 3
+      },
+      animProgress: 1, // 1 = full translated position shown; 0..1 during animation
+      isAnimating: false,
+      // Assessment State
+      currentQuestionIdx: 0,
+      userAnswers: Array(10).fill(null) // stores 'A'..'E' or null
+    };
+
+    function updateHeaderMetrics() {
+      // Calculate learning progress (max 100%)
+      // Tabs visited (30%), guided examples (10%), simulation used (10%), quiz answered (50%)
+      let progress = 0;
+      progress += Math.min(30, appState.visitedTabs.size * 10);
+      progress += Math.min(10, appState.guidedOpened.size * 5);
+      if (appState.simInteracted) progress += 10;
+      const answeredCount = appState.userAnswers.filter(a => a !== null).length;
+      progress += answeredCount * 5;
+      progress = Math.min(100, progress);
+
+      document.getElementById('header-progress-text').textContent = `${progress}%`;
+      document.getElementById('header-progress-bar').style.width = `${progress}%`;
+
+      // Calculate Quiz Score
+      let correctCount = 0;
+      appState.userAnswers.forEach((ans, idx) => {
+        if (ans && ans === quizData[idx].answer) correctCount++;
+      });
+      const score = correctCount * 10;
+      document.getElementById('header-score').textContent = score;
+      document.getElementById('header-answered-badge').textContent = `(${answeredCount}/10)`;
+    }
+
+    function switchTab(tabName) {
+      appState.activeTab = tabName;
+      appState.visitedTabs.add(tabName);
+
+      // Hide all sections
+      ['materi', 'simulasi', 'asesmen'].forEach(t => {
+        const sec = document.getElementById(`section-${t}`);
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (t === tabName) {
+          sec.classList.remove('hidden');
+          btn.className = 'tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all whitespace-nowrap bg-indigo-600 text-white shadow-sm';
+        } else {
+          sec.classList.add('hidden');
+          btn.className = 'tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200/70';
+        }
+      });
+
+      if (tabName === 'simulasi') {
+        appState.simInteracted = true;
+        renderSimControls();
+        resizeAndDrawCanvas();
+      } else if (tabName === 'asesmen') {
+        renderQuizNavPills();
+        renderCurrentQuestion();
+      }
+
+      updateHeaderMetrics();
+      renderMath();
+    }
+
+    // Guided Examples Toggle
+    function toggleGuidedStep(id, btnEl) {
+      const box = document.getElementById(id);
+      const isHidden = box.classList.contains('hidden');
+      const icon = btnEl.querySelector('svg');
+      const label = btnEl.querySelector('span');
+
+      if (isHidden) {
+        box.classList.remove('hidden');
+        label.textContent = 'Sembunyikan Langkah Penyelesaian';
+        icon.style.transform = 'rotate(180deg)';
+        appState.guidedOpened.add(id);
+        updateHeaderMetrics();
+        renderMath(box);
+      } else {
+        box.classList.add('hidden');
+        label.textContent = 'Tampilkan Langkah Penyelesaian';
+        icon.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    // Jump from Material Example directly to Simulation with parameters
+    function loadPresetToSim(mode, params) {
+      appState.simMode = mode;
+      if (mode === 'point') {
+        appState.simParams.px = params.x;
+        appState.simParams.py = params.y;
+        appState.simParams.a = params.a;
+        appState.simParams.b = params.b;
+      } else if (mode === 'line') {
+        appState.simParams.m = params.m;
+        appState.simParams.c = params.c;
+        appState.simParams.a = params.a;
+        appState.simParams.b = params.b;
+      }
+      switchTab('simulasi');
+      setSimMode(mode);
+      triggerShiftAnimation();
+      showToast('Parameter contoh dimuat ke Simulasi Kartesius!', 'success');
+    }
+
+    // =========================================================================
+    // 3. INTERACTIVE CARTESIAN SIMULATION (HTML5 CANVAS)
+    // =========================================================================
+    function setSimMode(mode) {
+      appState.simMode = mode;
+      appState.simInteracted = true;
+      appState.animProgress = 1;
+
+      // Update mode button styles
+      ['point', 'triangle', 'line'].forEach(m => {
+        const btn = document.getElementById(`sim-mode-${m}`);
+        if (m === mode) {
+          btn.className = 'sim-mode-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow-sm transition';
+        } else {
+          btn.className = 'sim-mode-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200/70 transition';
+        }
+      });
+
+      renderSimControls();
+      updateLiveFormulaPanel();
+      resizeAndDrawCanvas();
+      updateHeaderMetrics();
+    }
+
+    function renderSimControls() {
+      const container = document.getElementById('sim-object-controls');
+      const p = appState.simParams;
+
+      if (appState.simMode === 'point') {
+        container.innerHTML = `
+          <div class="text-xs font-bold uppercase tracking-wider text-blue-600">Koordinat Titik Awal $A(x, y)$</div>
+          <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-3 space-y-2">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-bold text-slate-700">Absis Titik Awal ($x$)</label>
+              <div class="flex items-center gap-1.5">
+                <button onclick="stepSimParam('px', -1)" class="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 font-bold text-slate-700 flex items-center justify-center">−</button>
+                <span id="val-px" class="w-10 text-center font-display font-extrabold text-sm text-blue-600">${p.px}</span>
+                <button onclick="stepSimParam('px', 1)" class="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 font-bold text-slate-700 flex items-center justify-center">+</button>
+              </div>
+            </div>
+            <input id="slider-px" type="range" min="-8" max="8" step="1" value="${p.px}" oninput="updateSimParam('px', this.value)" class="w-full" />
+          </div>
+
+          <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-3 space-y-2">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-bold text-slate-700">Ordinat Titik Awal ($y$)</label>
+              <div class="flex items-center gap-1.5">
+                <button onclick="stepSimParam('py', -1)" class="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 font-bold text-slate-700 flex items-center justify-center">−</button>
+                <span id="val-py" class="w-10 text-center font-display font-extrabold text-sm text-blue-600">${p.py}</span>
+                <button onclick="stepSimParam('py', 1)" class="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 font-bold text-slate-700 flex items-center justify-center">+</button>
+              </div>
+            </div>
+            <input id="slider-py" type="range" min="-8" max="8" step="1" value="${p.py}" oninput="updateSimParam('py', this.value)" class="w-full" />
+          </div>
+        `;
+      } else if (appState.simMode === 'triangle') {
+        container.innerHTML = `
+          <div class="text-xs font-bold uppercase tracking-wider text-blue-600">Posisi Segitiga Awal $\\triangle ABC$ (Alas = 4, Tinggi = 4)</div>
+          <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-3 space-y-2">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-bold text-slate-700">Posisi Horizontal Titik $A$ ($x_A$)</label>
+              <div class="flex items-center gap-1.5">
+                <button onclick="stepSimParam('tx', -1)" class="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 font-bold text-slate-700 flex items-center justify-center">−</button>
+                <span id="val-tx" class="w-10 text-center font-display font-extrabold text-sm text-blue-600">${p.tx}</span>
+                <button onclick="stepSimParam('tx', 1)" class="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 font-bold text-slate-700 flex items-center justify-center">+</button>
+              </div>
+            </div>
+            <input id="slider-tx" type="range" min="-9" max="5" step="1" value="${p.tx}" oninput="updateSimParam('tx', this.value)" class="w-full" />
+          </div>
+
+          <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-3 space-y-2">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-bold text-slate-700">Posisi Vertikal Titik $A$ ($y_A$)</label>
+              <div class="flex items-center gap-1.5">
+                <button onclick="stepSimParam('ty', -1)" class="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 font-bold text-slate-700 flex items-center justify-center">−</button>
+                <span id="val-ty" class="w-10 text-center font-display font-extrabold text-sm text-blue-600">${p.ty}</span>
+                <button onclick="stepSimParam('ty', 1)" class="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 font-bold text-slate-700 flex items-center justify-center">+</button>
+              </div>
+            </div>
+            <input id="slider-ty" type="range" min="-9" max="5" step="1" value="${p.ty}" oninput="updateSimParam('ty', this.value)" class="w-full" />
+          </div>
+        `;
+      } else if (appState.simMode === 'line') {
+        container.innerHTML = `
+          <div class="text-xs font-bold uppercase tracking-wider text-blue-600">Persamaan Garis Awal $y = mx + c$</div>
+          <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-3 space-y-2">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-bold text-slate-700">Gradien Garis ($m$)</label>
+              <div class="flex items-center gap-1.5">
+                <button onclick="stepSimParam('m', -1)" class="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 font-bold text-slate-700 flex items-center justify-center">−</button>
+                <span id="val-m" class="w-10 text-center font-display font-extrabold text-sm text-blue-600">${p.m}</span>
+                <button onclick="stepSimParam('m', 1)" class="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 font-bold text-slate-700 flex items-center justify-center">+</button>
+              </div>
+            </div>
+            <input id="slider-m" type="range" min="-4" max="4" step="1" value="${p.m}" oninput="updateSimParam('m', this.value)" class="w-full" />
+          </div>
+
+          <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-3 space-y-2">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-bold text-slate-700">Konstanta / Titik Potong Y ($c$)</label>
+              <div class="flex items-center gap-1.5">
+                <button onclick="stepSimParam('c', -1)" class="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 font-bold text-slate-700 flex items-center justify-center">−</button>
+                <span id="val-c" class="w-10 text-center font-display font-extrabold text-sm text-blue-600">${p.c}</span>
+                <button onclick="stepSimParam('c', 1)" class="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 font-bold text-slate-700 flex items-center justify-center">+</button>
+              </div>
+            </div>
+            <input id="slider-c" type="range" min="-6" max="6" step="1" value="${p.c}" oninput="updateSimParam('c', this.value)" class="w-full" />
+          </div>
+        `;
+      }
+
+      // Sync vector sliders
+      document.getElementById('slider-a').value = p.a;
+      document.getElementById('val-a').textContent = p.a;
+      document.getElementById('slider-b').value = p.b;
+      document.getElementById('val-b').textContent = p.b;
+
+      renderMath(container);
+      updateLiveFormulaPanel();
+    }
+
+    function updateSimParam(key, rawValue) {
+      const val = parseInt(rawValue, 10);
+      appState.simParams[key] = val;
+      appState.animProgress = 1;
+      const valBadge = document.getElementById(`val-${key}`);
+      if (valBadge) valBadge.textContent = val;
+      updateLiveFormulaPanel();
+      drawCartesianScene();
+    }
+
+    function stepSimParam(key, delta) {
+      const slider = document.getElementById(`slider-${key}`);
+      if (!slider) return;
+      const min = parseInt(slider.min, 10);
+      const max = parseInt(slider.max, 10);
+      const next = Math.max(min, Math.min(max, appState.simParams[key] + delta));
+      slider.value = next;
+      updateSimParam(key, next);
+    }
+
+    function resetSimulation() {
+      appState.simParams = {
+        px: -3, py: 2,
+        tx: -5, ty: -4,
+        m: 1, c: -2,
+        a: 4, b: 3
+      };
+      appState.animProgress = 1;
+      renderSimControls();
+      drawCartesianScene();
+      showToast('Simulasi dikembalikan ke pengaturan awal.', 'info');
+    }
+
+    function formatSigned(num) {
+      if (num === 0) return '';
+      return num > 0 ? `+ ${num}` : `- ${Math.abs(num)}`;
+    }
+
+    function formatLineEq(m, c) {
+      let mxPart = '';
+      if (m === 0) mxPart = '';
+      else if (m === 1) mxPart = 'x';
+      else if (m === -1) mxPart = '-x';
+      else mxPart = `${m}x`;
+
+      if (m === 0) return `y = ${c}`;
+      if (c === 0) return `y = ${mxPart}`;
+      return `y = ${mxPart} ${c > 0 ? '+' : '-'} ${Math.abs(c)}`;
+    }
+
+    function updateLiveFormulaPanel() {
+      const panel = document.getElementById('live-formula-content');
+      const p = appState.simParams;
+
+      if (appState.simMode === 'point') {
+        const xPrime = p.px + p.a;
+        const yPrime = p.py + p.b;
+        panel.innerHTML = `
+          <div class="text-indigo-200 text-xs">Rumus Translasi Titik:</div>
+          <div class="text-center py-1">
+            $$A(${p.px}, ${p.py}) \\xrightarrow{T = \\begin{pmatrix} ${p.a} \\\\ ${p.b} \\end{pmatrix}} A'(${p.px} + (${p.a}),\\; ${p.py} + (${p.b}))$$
+          </div>
+          <div class="pt-2 border-t border-white/10 flex items-center justify-between">
+            <span class="text-xs text-slate-300">Koordinat Bayangan:</span>
+            <span class="font-display font-extrabold text-emerald-400 text-base">$A'(${xPrime}, ${yPrime})$</span>
+          </div>
+        `;
+      } else if (appState.simMode === 'triangle') {
+        const A = [p.tx, p.ty];
+        const B = [p.tx + 4, p.ty];
+        const C = [p.tx + 2, p.ty + 4];
+        const Ap = [A[0] + p.a, A[1] + p.b];
+        const Bp = [B[0] + p.a, B[1] + p.b];
+        const Cp = [C[0] + p.a, C[1] + p.b];
+
+        panel.innerHTML = `
+          <div class="text-indigo-200 text-xs">Pergeseran Titik Sudut oleh $T = \\begin{pmatrix} ${p.a} \\\\ ${p.b} \\end{pmatrix}$:</div>
+          <div class="grid grid-cols-1 gap-1.5 text-xs bg-black/20 p-3 rounded-lg">
+            <div>• $A(${A[0]}, ${A[1]}) \\rightarrow \\mathbf{A'(${Ap[0]}, ${Ap[1]})}$</div>
+            <div>• $B(${B[0]}, ${B[1]}) \\rightarrow \\mathbf{B'(${Bp[0]}, ${Bp[1]})}$</div>
+            <div>• $C(${C[0]}, ${C[1]}) \\rightarrow \\mathbf{C'(${Cp[0]}, ${Cp[1]})}$</div>
+          </div>
+          <div class="pt-2 border-t border-white/10 flex items-center justify-between text-xs">
+            <span class="text-slate-300">Sifat Isometri (Luas Tetap):</span>
+            <span class="font-bold text-emerald-400">$\\text{Luas } \\triangle ABC = \\text{Luas } \\triangle A'B'C' = 8$</span>
+          </div>
+        `;
+      } else if (appState.simMode === 'line') {
+        // y = m*x + c translated by (a, b) => (y' - b) = m(x' - a) + c => y' = m*x' - m*a + c + b
+        const cPrime = -p.m * p.a + p.c + p.b;
+        const origEq = formatLineEq(p.m, p.c);
+        const imgEq = formatLineEq(p.m, cPrime);
+
+        panel.innerHTML = `
+          <div class="text-indigo-200 text-xs">Substitusi $x = x' - (${p.a})$ dan $y = y' - (${p.b})$:</div>
+          <div class="text-xs bg-black/20 p-2.5 rounded-lg space-y-1">
+            <div>Garis Awal $g$: $${origEq}$</div>
+            <div>Substitusi: $y' - (${p.b}) = ${p.m}(x' - (${p.a})) ${p.c >= 0 ? '+' : '-'} ${Math.abs(p.c)}$</div>
+          </div>
+          <div class="pt-2 border-t border-white/10 flex items-center justify-between">
+            <span class="text-xs text-slate-300">Persamaan Bayangan $g'$:</span>
+            <span class="font-display font-extrabold text-emerald-400 text-sm">$${imgEq}$</span>
+          </div>
+        `;
+      }
+
+      renderMath(panel);
+    }
+
+    // Smooth Cubic Ease-In-Out Animation along Translation Vector
+    function triggerShiftAnimation() {
+      if (appState.isAnimating) return;
+      appState.isAnimating = true;
+      appState.animProgress = 0;
+
+      const duration = 950; // ms
+      const startTime = performance.now();
+
+      function step(now) {
+        const elapsed = now - startTime;
+        const rawT = Math.min(1, elapsed / duration);
+        // Cubic ease-in-out
+        appState.animProgress = rawT < 0.5
+          ? 4 * rawT * rawT * rawT
+          : 1 - Math.pow(-2 * rawT + 2, 3) / 2;
+
+        drawCartesianScene();
+
+        if (rawT < 1) {
+          requestAnimationFrame(step);
+        } else {
+          appState.animProgress = 1;
+          appState.isAnimating = false;
+          drawCartesianScene();
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    // Canvas Sizing & Drawing Engine
+    function resizeAndDrawCanvas() {
+      const wrapper = document.getElementById('canvas-wrapper');
+      const canvas = document.getElementById('cartesian-canvas');
+      if (!wrapper || !canvas) return;
+
+      const rect = wrapper.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+
+      const ctx = canvas.getContext('2d');
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      drawCartesianScene();
+    }
+
+    function drawArrowHead(ctx, fromX, fromY, toX, toY, color, headLen = 10) {
+      const dx = toX - fromX;
+      const dy = toY - fromY;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 4) return;
+      const angle = Math.atan2(dy, dx);
+
+      ctx.save();
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(toX, toY);
+      ctx.lineTo(toX - headLen * Math.cos(angle - Math.PI / 6), toY - headLen * Math.sin(angle - Math.PI / 6));
+      ctx.lineTo(toX - headLen * Math.cos(angle + Math.PI / 6), toY - headLen * Math.sin(angle + Math.PI / 6));
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawCartesianScene() {
+      const wrapper = document.getElementById('canvas-wrapper');
+      const canvas = document.getElementById('cartesian-canvas');
+      if (!wrapper || !canvas) return;
+
+      const width = wrapper.getBoundingClientRect().width;
+      const height = wrapper.getBoundingClientRect().height;
+      if (width === 0 || height === 0) return;
+
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, width, height);
+
+      // Coordinate mapping: -10 to 10 with slight padding
+      const minCoord = -10;
+      const maxCoord = 10;
+      const range = maxCoord - minCoord; // 20
+      const padding = 28;
+      const plotW = width - padding * 2;
+      const plotH = height - padding * 2;
+
+      const toPxX = (x) => padding + ((x - minCoord) / range) * plotW;
+      const toPxY = (y) => padding + ((maxCoord - y) / range) * plotH;
+
+      // 1. Background fill
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, width, height);
+
+      // 2. Grid lines (-10 to 10)
+      for (let i = minCoord; i <= maxCoord; i++) {
+        const px = toPxX(i);
+        const py = toPxY(i);
+
+        // Vertical grid
+        ctx.beginPath();
+        ctx.strokeStyle = i === 0 ? '#334155' : (i % 5 === 0 ? '#cbd5e1' : '#f1f5f9');
+        ctx.lineWidth = i === 0 ? 1.8 : 1;
+        ctx.moveTo(px, padding);
+        ctx.lineTo(px, height - padding);
+        ctx.stroke();
+
+        // Horizontal grid
+        ctx.beginPath();
+        ctx.strokeStyle = i === 0 ? '#334155' : (i % 5 === 0 ? '#cbd5e1' : '#f1f5f9');
+        ctx.lineWidth = i === 0 ? 1.8 : 1;
+        ctx.moveTo(padding, py);
+        ctx.lineTo(width - padding, py);
+        ctx.stroke();
+      }
+
+      // Axis arrows & labels X, Y
+      const originX = toPxX(0);
+      const originY = toPxY(0);
+      drawArrowHead(ctx, padding, originY, width - padding + 8, originY, '#334155', 8);
+      drawArrowHead(ctx, originX, height - padding, originX, padding - 8, '#334155', 8);
+
+      ctx.fillStyle = '#0f172a';
+      ctx.font = 'bold 12px Inter, sans-serif';
+      ctx.fillText('X', width - padding + 10, originY + 4);
+      ctx.fillText('Y', originX - 4, padding - 12);
+
+      // Numeric tick labels
+      ctx.fillStyle = '#64748b';
+      ctx.font = '10px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      for (let i = minCoord; i <= maxCoord; i += 2) {
+        if (i === 0) continue;
+        ctx.fillText(i.toString(), toPxX(i), originY + 5);
+      }
+
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'middle';
+      for (let i = minCoord; i <= maxCoord; i += 2) {
+        if (i === 0) continue;
+        ctx.fillText(i.toString(), originX - 6, toPxY(i));
+      }
+      ctx.fillText('0', originX - 6, originY + 8);
+
+      // Clip inside plot area for geometric objects so lines don't spill outside border
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(padding - 4, padding - 4, plotW + 8, plotH + 8);
+      ctx.clip();
+
+      const p = appState.simParams;
+      const t = appState.animProgress;
+      const curA = p.a * t;
+      const curB = p.b * t;
+
+      // =====================================================================
+      // MODE 1: POINT TRANSLATION
+      // =====================================================================
+      if (appState.simMode === 'point') {
+        const x1 = p.px, y1 = p.py;
+        const x2 = x1 + curA, y2 = y1 + curB;
+
+        const px1 = toPxX(x1), py1 = toPxY(y1);
+        const px2 = toPxX(x2), py2 = toPxY(y2);
+
+        // Horizontal & vertical component guides (subtle orange)
+        if (t > 0.05) {
+          ctx.save();
+          ctx.setLineDash([3, 3]);
+          ctx.strokeStyle = 'rgba(234, 88, 12, 0.4)';
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.moveTo(px1, py1);
+          ctx.lineTo(px2, py1);
+          ctx.lineTo(px2, py2);
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        // Dashed Orange Translation Vector
+        ctx.save();
+        ctx.setLineDash([6, 4]);
+        ctx.strokeStyle = '#ea580c';
+        ctx.lineWidth = 2.4;
+        ctx.beginPath();
+        ctx.moveTo(px1, py1);
+        ctx.lineTo(px2, py2);
+        ctx.stroke();
+        ctx.restore();
+        drawArrowHead(ctx, px1, py1, px2, py2, '#ea580c', 10);
+
+        // Vector label T
+        if (Math.hypot(px2 - px1, py2 - py1) > 25) {
+          const midX = (px1 + px2) / 2;
+          const midY = (py1 + py2) / 2;
+          ctx.fillStyle = '#c2410c';
+          ctx.font = 'bold 11px Inter, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText(`T(${p.a}, ${p.b})`, midX, midY - 10);
+        }
+
+        // Initial Point A (Blue)
+        ctx.beginPath();
+        ctx.arc(px1, py1, 6.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#2563eb';
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#ffffff';
+        ctx.stroke();
+
+        ctx.fillStyle = '#1d4ed8';
+        ctx.font = 'bold 12px Inter, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(`A(${x1}, ${y1})`, px1 + 9, py1 - 8);
+
+        // Translated Point A' (Emerald)
+        ctx.beginPath();
+        ctx.arc(px2, py2, 6.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#059669';
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#ffffff';
+        ctx.stroke();
+
+        ctx.fillStyle = '#047857';
+        ctx.font = 'bold 12px Inter, sans-serif';
+        ctx.textAlign = 'left';
+        const dispX = Number.isInteger(x2) ? x2 : x2.toFixed(1);
+        const dispY = Number.isInteger(y2) ? y2 : y2.toFixed(1);
+        ctx.fillText(`A'(${dispX}, ${dispY})`, px2 + 9, py2 - 8);
+      }
+
+      // =====================================================================
+      // MODE 2: TRIANGLE ABC TRANSLATION
+      // =====================================================================
+      else if (appState.simMode === 'triangle') {
+        const origPts = [
+          { label: 'A', x: p.tx, y: p.ty },
+          { label: 'B', x: p.tx + 4, y: p.ty },
+          { label: 'C', x: p.tx + 2, y: p.ty + 4 }
+        ];
+        const imgPts = origPts.map(pt => ({
+          label: `${pt.label}'`,
+          x: pt.x + curA,
+          y: pt.y + curB
+        }));
+
+        // Draw Original Triangle (Blue)
+        ctx.beginPath();
+        origPts.forEach((pt, i) => {
+          const sx = toPxX(pt.x), sy = toPxY(pt.y);
+          if (i === 0) ctx.moveTo(sx, sy);
+          else ctx.lineTo(sx, sy);
+        });
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(37, 99, 235, 0.16)';
+        ctx.fill();
+        ctx.strokeStyle = '#2563eb';
+        ctx.lineWidth = 2.2;
+        ctx.stroke();
+
+        // Draw Translated Triangle (Emerald)
+        ctx.beginPath();
+        imgPts.forEach((pt, i) => {
+          const sx = toPxX(pt.x), sy = toPxY(pt.y);
+          if (i === 0) ctx.moveTo(sx, sy);
+          else ctx.lineTo(sx, sy);
+        });
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(5, 150, 105, 0.18)';
+        ctx.fill();
+        ctx.strokeStyle = '#059669';
+        ctx.lineWidth = 2.2;
+        ctx.stroke();
+
+        // Dashed Orange Displacement Vectors for all 3 vertices
+        origPts.forEach((pt, i) => {
+          const sx1 = toPxX(pt.x), sy1 = toPxY(pt.y);
+          const sx2 = toPxX(imgPts[i].x), sy2 = toPxY(imgPts[i].y);
+
+          ctx.save();
+          ctx.setLineDash([5, 4]);
+          ctx.strokeStyle = '#ea580c';
+          ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          ctx.moveTo(sx1, sy1);
+          ctx.lineTo(sx2, sy2);
+          ctx.stroke();
+          ctx.restore();
+          drawArrowHead(ctx, sx1, sy1, sx2, sy2, '#ea580c', 8);
+
+          // Original vertex dot & label
+          ctx.beginPath();
+          ctx.arc(sx1, sy1, 4.5, 0, Math.PI * 2);
+          ctx.fillStyle = '#2563eb';
+          ctx.fill();
+          ctx.fillStyle = '#1e40af';
+          ctx.font = 'bold 11px Inter, sans-serif';
+          ctx.textAlign = 'right';
+          ctx.fillText(pt.label, sx1 - 6, sy1 + 4);
+
+          // Image vertex dot & label
+          ctx.beginPath();
+          ctx.arc(sx2, sy2, 4.5, 0, Math.PI * 2);
+          ctx.fillStyle = '#059669';
+          ctx.fill();
+          ctx.fillStyle = '#065f46';
+          ctx.font = 'bold 11px Inter, sans-serif';
+          ctx.textAlign = 'left';
+          ctx.fillText(imgPts[i].label, sx2 + 6, sy2 - 4);
+        });
+      }
+
+      // =====================================================================
+      // MODE 3: LINEAR LINE y = mx + c TRANSLATION
+      // =====================================================================
+      else if (appState.simMode === 'line') {
+        const m = p.m;
+        const c = p.c;
+        // Translated intercept during animation: y - curB = m(x - curA) + c => y = m*x - m*curA + c + curB
+        const cImg = -m * curA + c + curB;
+
+        // Draw Original Line g (Blue) across x in [-11, 11]
+        ctx.beginPath();
+        ctx.strokeStyle = '#2563eb';
+        ctx.lineWidth = 2.6;
+        ctx.moveTo(toPxX(-11), toPxY(m * -11 + c));
+        ctx.lineTo(toPxX(11), toPxY(m * 11 + c));
+        ctx.stroke();
+
+        // Draw Translated Line g' (Emerald)
+        ctx.beginPath();
+        ctx.strokeStyle = '#059669';
+        ctx.lineWidth = 2.6;
+        ctx.moveTo(toPxX(-11), toPxY(m * -11 + cImg));
+        ctx.lineTo(toPxX(11), toPxY(m * 11 + cImg));
+        ctx.stroke();
+
+        // Sample reference point on original line: (0, c) -> (curA, c + curB)
+        const refX1 = 0, refY1 = c;
+        const refX2 = curA, refY2 = c + curB;
+        const px1 = toPxX(refX1), py1 = toPxY(refY1);
+        const px2 = toPxX(refX2), py2 = toPxY(refY2);
+
+        ctx.save();
+        ctx.setLineDash([5, 4]);
+        ctx.strokeStyle = '#ea580c';
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        ctx.moveTo(px1, py1);
+        ctx.lineTo(px2, py2);
+        ctx.stroke();
+        ctx.restore();
+        drawArrowHead(ctx, px1, py1, px2, py2, '#ea580c', 9);
+
+        // Reference Point P on g
+        ctx.beginPath();
+        ctx.arc(px1, py1, 5.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#2563eb';
+        ctx.fill();
+        ctx.fillStyle = '#1d4ed8';
+        ctx.font = 'bold 11px Inter, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(`g (0, ${c})`, px1 - 8, py1 - 6);
+
+        // Reference Point P' on g'
+        ctx.beginPath();
+        ctx.arc(px2, py2, 5.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#059669';
+        ctx.fill();
+        ctx.fillStyle = '#047857';
+        ctx.font = 'bold 11px Inter, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(`g'`, px2 + 8, py2 - 6);
+      }
+
+      ctx.restore();
+    }
+
+    // ResizeObserver for Responsive Canvas
+    window.addEventListener('resize', () => {
+      if (appState.activeTab === 'simulasi') {
+        resizeAndDrawCanvas();
+      }
+    });
+
+    // =========================================================================
+    // 4. ASSESSMENT DATA & INTERACTIVE QUIZ LOGIC (10 EXACT QUESTIONS)
+    // =========================================================================
+    const quizData = [
+      {
+        id: 1,
+        difficulty: 'Mudah',
+        badgeClass: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+        question: 'Titik $P(4, -3)$ ditranslasikan oleh $T = \\begin{pmatrix} -2 \\\\ 5 \\end{pmatrix}$. Koordinat bayangan titik $P$ adalah...',
+        options: {
+          A: '$(2, 2)$',
+          B: '$(6, -8)$',
+          C: '$(2, -8)$',
+          D: '$(-2, 2)$',
+          E: '$(6, 2)$'
+        },
+        answer: 'A',
+        explanation: 'Gunakan rumus $P(x, y) \\xrightarrow{T\\binom{a}{b}} P\'(x+a, y+b)$. Diperoleh $x\' = 4 + (-2) = 2$ dan $y\' = -3 + 5 = 2$. Jadi bayangannya adalah $P\'(2, 2)$.'
+      },
+      {
+        id: 2,
+        difficulty: 'Mudah',
+        badgeClass: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+        question: 'Diketahui titik $A(-3, 7)$ bergeser ke posisi bayangan $A\'(5, 1)$. Komponen vektor translasi $T = \\begin{pmatrix} a \\\\ b \\end{pmatrix}$ yang memindahkan titik $A$ tersebut adalah...',
+        options: {
+          A: '$\\begin{pmatrix} 2 \\\\ 8 \\end{pmatrix}$',
+          B: '$\\begin{pmatrix} 8 \\\\ -6 \\end{pmatrix}$',
+          C: '$\\begin{pmatrix} -8 \\\\ 6 \\end{pmatrix}$',
+          D: '$\\begin{pmatrix} 8 \\\\ 6 \\end{pmatrix}$',
+          E: '$\\begin{pmatrix} -2 \\\\ -8 \\end{pmatrix}$'
+        },
+        answer: 'B',
+        explanation: 'Karena $x\' = x + a \\Rightarrow a = x\' - x = 5 - (-3) = 8$, dan $y\' = y + b \\Rightarrow b = y\' - y = 1 - 7 = -6$. Jadi vektor translasinya adalah $T = \\begin{pmatrix} 8 \\\\ -6 \\end{pmatrix}$.'
+      },
+      {
+        id: 3,
+        difficulty: 'Mudah',
+        badgeClass: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+        question: 'Bayangan titik $K$ setelah ditranslasikan oleh $T = \\begin{pmatrix} 4 \\\\ -6 \\end{pmatrix}$ adalah $K\'(-1, 3)$. Koordinat titik asal $K$ adalah...',
+        options: {
+          A: '$(3, -3)$',
+          B: '$(-5, -3)$',
+          C: '$(-5, 9)$',
+          D: '$(5, -9)$',
+          E: '$(3, 9)$'
+        },
+        answer: 'C',
+        explanation: 'Untuk mencari titik asal, gunakan $x = x\' - a$ dan $y = y\' - b$. Diperoleh $x = -1 - 4 = -5$ dan $y = 3 - (-6) = 9$. Jadi titik $K(-5, 9)$.'
+      },
+      {
+        id: 4,
+        difficulty: 'Sedang',
+        badgeClass: 'bg-blue-100 text-blue-800 border-blue-200',
+        question: 'Titik $B(2, -5)$ ditranslasikan berturut-turut oleh $T_1 = \\begin{pmatrix} -3 \\\\ 4 \\end{pmatrix}$ dan dilanjutkan oleh $T_2 = \\begin{pmatrix} 6 \\\\ -2 \\end{pmatrix}$. Koordinat bayangan akhir titik $B$ adalah...',
+        options: {
+          A: '$(5, -3)$',
+          B: '$(-1, -1)$',
+          C: '$(5, -7)$',
+          D: '$(11, -3)$',
+          E: '$(-7, 1)$'
+        },
+        answer: 'A',
+        explanation: 'Komposisi dua translasi dapat dijumlahkan: $T_{\\text{total}} = T_1 + T_2 = \\begin{pmatrix} -3 + 6 \\\\ 4 + (-2) \\end{pmatrix} = \\begin{pmatrix} 3 \\\\ 2 \\end{pmatrix}$. Maka $x\'\' = 2 + 3 = 5$ dan $y\'\' = -5 + 2 = -3$. Bayangan akhirnya adalah $B\'\'(5, -3)$.'
+      },
+      {
+        id: 5,
+        difficulty: 'Sedang',
+        badgeClass: 'bg-blue-100 text-blue-800 border-blue-200',
+        question: 'Persamaan bayangan garis $3x - 2y + 6 = 0$ oleh translasi $T = \\begin{pmatrix} 2 \\\\ -1 \\end{pmatrix}$ adalah...',
+        options: {
+          A: '$3x - 2y + 14 = 0$',
+          B: '$3x - 2y - 2 = 0$',
+          C: '$3x - 2y + 2 = 0$',
+          D: '$3x - 2y - 10 = 0$',
+          E: '$3x + 2y - 2 = 0$'
+        },
+        answer: 'B',
+        explanation: 'Dari $T = \\begin{pmatrix} 2 \\\\ -1 \\end{pmatrix}$, diperoleh $x = x\' - 2$ dan $y = y\' + 1$. Substitusikan ke persamaan awal: $3(x\' - 2) - 2(y\' + 1) + 6 = 0 \\Rightarrow 3x\' - 6 - 2y\' - 2 + 6 = 0 \\Rightarrow 3x\' - 2y\' - 2 = 0$. Hilangkan aksen sehingga diperoleh $3x - 2y - 2 = 0$.'
+      },
+      {
+        id: 6,
+        difficulty: 'Sedang',
+        badgeClass: 'bg-blue-100 text-blue-800 border-blue-200',
+        question: 'Sebuah segitiga $ABC$ memiliki koordinat titik sudut $A(1, 2)$, $B(5, 2)$, dan $C(3, 6)$. Jika segitiga tersebut digeser sejauh $4$ satuan ke kanan dan $3$ satuan ke bawah, maka luas bayangan segitiga $A\'B\'C\'$ adalah...',
+        options: {
+          A: '$6\\text{ satuan luas}$',
+          B: '$8\\text{ satuan luas}$',
+          C: '$12\\text{ satuan luas}$',
+          D: '$16\\text{ satuan luas}$',
+          E: '$24\\text{ satuan luas}$'
+        },
+        answer: 'B',
+        explanation: 'Translasi merupakan transformasi isometri yang tidak mengubah ukuran maupun luas bangun, sehingga $\\text{Luas } \\triangle A\'B\'C\' = \\text{Luas } \\triangle ABC$. Pada $\\triangle ABC$, panjang alas $AB = 5 - 1 = 4$ satuan dan tinggi $= 6 - 2 = 4$ satuan. Maka $\\text{Luas} = \\frac{1}{2} \\times 4 \\times 4 = 8\\text{ satuan luas}$.'
+      },
+      {
+        id: 7,
+        difficulty: 'Sulit',
+        badgeClass: 'bg-orange-100 text-orange-800 border-orange-200',
+        question: 'Parabola dengan persamaan $y = x^2 - 4x + 5$ ditranslasikan oleh $T = \\begin{pmatrix} -1 \\\\ 3 \\end{pmatrix}$. Persamaan bayangan parabola tersebut adalah...',
+        options: {
+          A: '$y = x^2 - 2x + 5$',
+          B: '$y = x^2 - 6x + 13$',
+          C: '$y = x^2 - 2x - 1$',
+          D: '$y = x^2 + 2x + 5$',
+          E: '$y = x^2 - 6x + 7$'
+        },
+        answer: 'A',
+        explanation: 'Dari $T = \\begin{pmatrix} -1 \\\\ 3 \\end{pmatrix}$, diperoleh $x = x\' + 1$ dan $y = y\' - 3$. Substitusikan ke parabola: $y\' - 3 = (x\' + 1)^2 - 4(x\' + 1) + 5 \\Rightarrow y\' - 3 = x\'^2 + 2x\' + 1 - 4x\' - 4 + 5 \\Rightarrow y\' - 3 = x\'^2 - 2x\' + 2 \\Rightarrow y\' = x\'^2 - 2x\' + 5$. Jadi persamaan bayangannya adalah $y = x^2 - 2x + 5$.'
+      },
+      {
+        id: 8,
+        difficulty: 'Sulit',
+        badgeClass: 'bg-orange-100 text-orange-800 border-orange-200',
+        question: 'Lingkaran $L \\equiv (x - 2)^2 + (y + 3)^2 = 16$ ditranslasikan oleh $T = \\begin{pmatrix} a \\\\ b \\end{pmatrix}$ sehingga menghasilkan bayangan lingkaran $L\' \\equiv x^2 + y^2 + 4x - 2y - 11 = 0$. Nilai dari $2a - b$ adalah...',
+        options: {
+          A: '$-12$',
+          B: '$-4$',
+          C: '$4$',
+          D: '$12$',
+          E: '$-8$'
+        },
+        answer: 'A',
+        explanation: 'Pusat lingkaran awal $L$ adalah $P_1(2, -3)$. Ubah persamaan $L\'$ ke bentuk baku: $(x + 2)^2 - 4 + (y - 1)^2 - 1 - 11 = 0 \\Rightarrow (x + 2)^2 + (y - 1)^2 = 16$, sehingga pusat bayangannya $P_2(-2, 1)$. Karena $P_1 + T = P_2$, maka $a = -2 - 2 = -4$ dan $b = 1 - (-3) = 4$. Jadi nilai $2a - b = 2(-4) - 4 = -12$.'
+      },
+      {
+        id: 9,
+        difficulty: 'TKA',
+        badgeClass: 'bg-purple-100 text-purple-800 border-purple-200',
+        question: 'Garis $g$ melalui titik $(1, 4)$ dan sejajar dengan garis $2x + y - 5 = 0$. Jika garis $g$ ditranslasikan oleh $T = \\begin{pmatrix} -2 \\\\ 3 \\end{pmatrix}$ menghasilkan garis $g\'$, maka titik potong garis $g\'$ terhadap sumbu-X adalah...',
+        options: {
+          A: '$\\left(\\frac{1}{2}, 0\\right)$',
+          B: '$\\left(\\frac{3}{2}, 0\\right)$',
+          C: '$\\left(\\frac{5}{2}, 0\\right)$',
+          D: '$\\left(\\frac{7}{2}, 0\\right)$',
+          E: '$(5, 0)$'
+        },
+        answer: 'C',
+        explanation: '1) Gradien garis $2x + y - 5 = 0$ adalah $m = -2$. Garis $g$ yang sejajar dan melalui $(1, 4)$ adalah $y - 4 = -2(x - 1) \\Rightarrow 2x + y - 6 = 0$. 2) Translasi oleh $T = \\begin{pmatrix} -2 \\\\ 3 \\end{pmatrix}$ memberikan substitusi $x = x\' + 2$ dan $y = y\' - 3$, sehingga $2(x\' + 2) + (y\' - 3) - 6 = 0 \\Rightarrow 2x\' + y\' - 5 = 0$. 3) Titik potong sumbu-X saat $y = 0 \\Rightarrow 2x - 5 = 0 \\Rightarrow x = \\frac{5}{2}$, yaitu $\\left(\\frac{5}{2}, 0\\right)$.'
+      },
+      {
+        id: 10,
+        difficulty: 'TKA',
+        badgeClass: 'bg-purple-100 text-purple-800 border-purple-200',
+        question: 'Grafik fungsi kuadrat $f(x) = ax^2 + bx + c$ memiliki titik puncak di $(3, -2)$ dan melalui titik $(1, 6)$. Jika grafik $f(x)$ ditranslasikan oleh $T = \\begin{pmatrix} -4 \\\\ 5 \\end{pmatrix}$ menjadi $g(x)$, maka nilai dari $g(0)$ adalah...',
+        options: {
+          A: '$3$',
+          B: '$5$',
+          C: '$7$',
+          D: '$9$',
+          E: '$11$'
+        },
+        answer: 'B',
+        explanation: '1) Bentuk puncak fungsi kuadrat: $f(x) = a(x - 3)^2 - 2$. Melalui $(1, 6) \\Rightarrow 6 = a(1 - 3)^2 - 2 \\Rightarrow 8 = 4a \\Rightarrow a = 2$, maka $f(x) = 2(x - 3)^2 - 2$. 2) Translasi $T = \\begin{pmatrix} -4 \\\\ 5 \\end{pmatrix}$ menggeser puncak $(3, -2)$ menjadi $(3 - 4, -2 + 5) = (-1, 3)$ tanpa mengubah koefisien $a = 2$, sehingga $g(x) = 2(x + 1)^2 + 3$. 3) Substitusi $x = 0$: $g(0) = 2(0 + 1)^2 + 3 = 5$.'
+      }
+    ];
+
+    function renderQuizNavPills() {
+      const container = document.getElementById('quiz-nav-pills');
+      container.innerHTML = quizData.map((q, idx) => {
+        const userAns = appState.userAnswers[idx];
+        const isCurrent = idx === appState.currentQuestionIdx;
+
+        let pillStyle = 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200/80';
+        let statusDot = '';
+
+        if (userAns !== null) {
+          if (userAns === q.answer) {
+            pillStyle = 'bg-emerald-50 text-emerald-800 border-emerald-400';
+            statusDot = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>';
+          } else {
+            pillStyle = 'bg-rose-50 text-rose-800 border-rose-400';
+            statusDot = '<span class="w-1.5 h-1.5 rounded-full bg-rose-600"></span>';
+          }
+        }
+
+        if (isCurrent) {
+          pillStyle += ' ring-2 ring-indigo-600 ring-offset-1 font-extrabold';
+        }
+
+        // Difficulty tiny indicator color
+        const diffDotColors = {
+          'Mudah': 'bg-emerald-500',
+          'Sedang': 'bg-blue-500',
+          'Sulit': 'bg-orange-500',
+          'TKA': 'bg-purple-500'
+        };
+
+        return `
+          <button onclick="goToQuestion(${idx})" class="relative py-2 px-2 rounded-xl border text-xs sm:text-sm font-bold transition flex flex-col items-center justify-center gap-1 ${pillStyle}">
+            <div class="flex items-center gap-1">
+              <span>${q.id}</span>
+              ${statusDot}
+            </div>
+            <span class="w-4 h-1 rounded-full ${diffDotColors[q.difficulty]}"></span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function goToQuestion(idx) {
+      appState.currentQuestionIdx = idx;
+      renderQuizNavPills();
+      renderCurrentQuestion();
+    }
+
+    function renderCurrentQuestion() {
+      const idx = appState.currentQuestionIdx;
+      const q = quizData[idx];
+      const userAns = appState.userAnswers[idx];
+      const isAnswered = userAns !== null;
+      const isCorrect = isAnswered && userAns === q.answer;
+
+      const card = document.getElementById('quiz-question-card');
+
+      // Render Options A - E
+      const optionKeys = ['A', 'B', 'C', 'D', 'E'];
+      const optionsHtml = optionKeys.map(key => {
+        let btnClass = 'border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/40 text-slate-800 cursor-pointer';
+        let badgeClass = 'bg-slate-100 text-slate-700 border-slate-200';
+        let statusIcon = '';
+
+        if (isAnswered) {
+          if (key === q.answer) {
+            // Highlight correct answer in emerald green
+            btnClass = 'border-emerald-500 bg-emerald-50/90 text-emerald-950 ring-1 ring-emerald-500 cursor-default';
+            badgeClass = 'bg-emerald-600 text-white border-emerald-600';
+            statusIcon = `
+              <span class="ml-auto inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Jawaban Benar
+              </span>
+            `;
+          } else if (key === userAns && userAns !== q.answer) {
+            // Highlight wrong selected option in rose red
+            btnClass = 'border-rose-500 bg-rose-50/90 text-rose-950 ring-1 ring-rose-500 cursor-default';
+            badgeClass = 'bg-rose-600 text-white border-rose-600';
+            statusIcon = `
+              <span class="ml-auto inline-flex items-center gap-1 text-xs font-bold text-rose-700 bg-rose-100 px-2.5 py-1 rounded-full shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+                Pilihanmu
+              </span>
+            `;
+          } else {
+            // Other locked options
+            btnClass = 'border-slate-200 bg-slate-50/70 text-slate-400 opacity-75 cursor-default';
+            badgeClass = 'bg-slate-100 text-slate-400 border-slate-200';
+          }
+        }
+
+        return `
+          <button
+            onclick="selectOption('${key}')"
+            ${isAnswered ? 'disabled' : ''}
+            class="w-full text-left p-3.5 sm:p-4 rounded-2xl border-2 transition-all flex items-center gap-3.5 ${btnClass}">
+            <span class="w-8 h-8 rounded-xl border font-display font-extrabold text-sm flex items-center justify-center shrink-0 ${badgeClass}">
+              ${key}
+            </span>
+            <span class="text-sm sm:text-base font-medium leading-snug">${q.options[key]}</span>
+            ${statusIcon}
+          </button>
+        `;
+      }).join('');
+
+      // Automatic Immediate Feedback & Full Explanation Box (Shown whenever answered—whether RIGHT or WRONG)
+      let feedbackAndExplanationHtml = '';
+      if (isAnswered) {
+        const bannerStyle = isCorrect
+          ? 'bg-emerald-50 border-emerald-300 text-emerald-950'
+          : 'bg-rose-50 border-rose-300 text-rose-950';
+
+        const bannerBadge = isCorrect
+          ? `<div class="flex items-center gap-2 text-emerald-700 font-display font-extrabold text-base">
+               <span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center">✓</span>
+               <span>Jawaban Benar! Kerja Bagus!</span>
+             </div>`
+          : `<div class="flex items-center gap-2 text-rose-700 font-display font-extrabold text-base">
+               <span class="w-7 h-7 rounded-full bg-rose-600 text-white flex items-center justify-center">✕</span>
+               <span>Jawaban Kurang Tepat (Pilihanmu: ${userAns})</span>
+             </div>`;
+
+        feedbackAndExplanationHtml = `
+          <div class="mt-6 rounded-2xl border-2 p-5 sm:p-6 space-y-4 animate-fade-up ${bannerStyle}">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-3 border-b ${isCorrect ? 'border-emerald-200' : 'border-rose-200'}">
+              ${bannerBadge}
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white border border-slate-200 text-xs font-extrabold text-slate-900 shadow-sm">
+                Kunci Jawaban: <span class="text-emerald-600 text-sm">${q.answer}</span>
+              </span>
+            </div>
+
+            <div class="space-y-2">
+              <div class="text-xs font-bold uppercase tracking-wider text-slate-600">
+                Jawaban Benar & Pembahasan Lengkap:
+              </div>
+              <div class="bg-white/90 border border-slate-200/80 rounded-xl p-4 text-sm sm:text-base text-slate-800 leading-relaxed">
+                <p class="mb-2 font-semibold text-emerald-800">
+                  Kunci Jawaban yang Benar: <strong>${q.answer}. ${q.options[q.answer]}</strong>
+                </p>
+                <p>${q.explanation}</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      const answeredTotal = appState.userAnswers.filter(a => a !== null).length;
+
+      card.innerHTML = `
+        <!-- Top Meta Row -->
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-slate-100">
+          <div class="flex items-center gap-2.5">
+            <span class="font-display font-extrabold text-lg text-slate-900">Soal ${q.id} <span class="text-slate-400 font-semibold text-sm">dari 10</span></span>
+            <span class="px-3 py-0.5 rounded-full text-xs font-bold border ${q.badgeClass}">
+              Tingkat: ${q.difficulty}
+            </span>
+          </div>
+          <span class="text-xs font-semibold text-slate-500">
+            Terjawab: ${answeredTotal}/10 Soal
+          </span>
+        </div>
+
+        <!-- Question Prompt -->
+        <div class="text-base sm:text-lg text-slate-900 font-medium leading-relaxed">
+          ${q.question}
+        </div>
+
+        <!-- Options List -->
+        <div class="space-y-3">
+          ${optionsHtml}
+        </div>
+
+        <!-- Immediate Feedback & Explanation Box -->
+        ${feedbackAndExplanationHtml}
+
+        <!-- Bottom Prev/Next Navigation -->
+        <div class="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+          <button
+            onclick="goToQuestion(${Math.max(0, idx - 1)})"
+            ${idx === 0 ? 'disabled' : ''}
+            class="px-4 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-bold text-slate-700 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition">
+            ← Soal Sebelumnya
+          </button>
+
+          ${idx < quizData.length - 1
+            ? `<button onclick="goToQuestion(${idx + 1})" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold shadow-sm transition">
+                 Soal Berikutnya →
+               </button>`
+            : `<button onclick="showSummaryModal()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold shadow-sm transition">
+                 Lihat Hasil Akhir & Analisis →
+               </button>`
+          }
+        </div>
+      `;
+
+      renderMath(card);
+    }
+
+    function selectOption(optionKey) {
+      const idx = appState.currentQuestionIdx;
+      // Lock once answered
+      if (appState.userAnswers[idx] !== null) return;
+
+      appState.userAnswers[idx] = optionKey;
+      updateHeaderMetrics();
+      renderQuizNavPills();
+      renderCurrentQuestion();
+
+      const answeredTotal = appState.userAnswers.filter(a => a !== null).length;
+      if (answeredTotal === quizData.length) {
+        renderSummaryCard();
+        showToast('Semua 10 soal telah dijawab! Ringkasan skor tersedia di bawah.', 'success');
+      }
+    }
+
+    function renderSummaryCard() {
+      const summaryCard = document.getElementById('quiz-summary-card');
+      summaryCard.classList.remove('hidden');
+
+      let totalCorrect = 0;
+      const categories = {
+        'Mudah': { correct: 0, total: 3, color: 'bg-emerald-500', text: 'text-emerald-700', bg: 'bg-emerald-50' },
+        'Sedang': { correct: 0, total: 3, color: 'bg-blue-500', text: 'text-blue-700', bg: 'bg-blue-50' },
+        'Sulit': { correct: 0, total: 2, color: 'bg-orange-500', text: 'text-orange-700', bg: 'bg-orange-50' },
+        'TKA': { correct: 0, total: 2, color: 'bg-purple-500', text: 'text-purple-700', bg: 'bg-purple-50' }
+      };
+
+      quizData.forEach((q, idx) => {
+        if (appState.userAnswers[idx] === q.answer) {
+          totalCorrect++;
+          categories[q.difficulty].correct++;
+        }
+      });
+
+      const finalScore = totalCorrect * 10;
+      const unanswered = appState.userAnswers.filter(a => a === null).length;
+
+      let predicate = 'Terus Berlatih!';
+      let predicateDesc = 'Pelajari kembali bagian Materi & Konsep serta coba Simulasi Kartesius untuk memperkuat pemahamanmu.';
+      if (finalScore >= 90) {
+        predicate = 'Luar Biasa! Penguasaan Sempurna!';
+        predicateDesc = 'Kamu telah menguasai konsep translasi titik, komposisi, persamaan garis/kurva, hingga soal tipe TKA dengan sangat baik.';
+      } else if (finalScore >= 70) {
+        predicate = 'Bagus! Pemahaman Sudah Kuat';
+        predicateDesc = 'Sebagian besar konsep sudah kamu kuasai. Perhatikan kembali pembahasan pada soal Sulit dan TKA untuk hasil maksimal.';
+      } else if (finalScore >= 50) {
+        predicate = 'Cukup Baik, Tingkatkan Lagi!';
+        predicateDesc = 'Konsep dasar translasi sudah mulai dipahami. Cermati langkah substitusi kurva dan komposisi vektor pada pembahasan.';
+      }
+
+      const categoryCardsHtml = Object.entries(categories).map(([catName, stat]) => {
+        const pct = Math.round((stat.correct / stat.total) * 100);
+        return `
+          <div class="p-4 rounded-2xl border border-slate-200/80 ${stat.bg} space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-display font-bold text-sm ${stat.text}">${catName}</span>
+              <span class="text-xs font-extrabold text-slate-800">${stat.correct}/${stat.total} Benar (${pct}%)</span>
+            </div>
+            <div class="w-full h-2 bg-white rounded-full overflow-hidden">
+              <div class="h-full ${stat.color} rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      summaryCard.innerHTML = `
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-100">
+          <div class="space-y-1.5">
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800">Ringkasan Hasil Asesmen</span>
+            <h3 class="font-display text-2xl font-extrabold text-slate-900">${predicate}</h3>
+            <p class="text-sm text-slate-600 max-w-xl">${predicateDesc}</p>
+            ${unanswered > 0 ? `<p class="text-xs font-semibold text-amber-700 pt-1">Catatan: Masih ada ${unanswered} soal yang belum kamu jawab.</p>` : ''}
+          </div>
+
+          <div class="flex items-center gap-4 bg-gradient-to-br from-indigo-600 to-blue-700 text-white px-6 py-4 rounded-2xl shadow-glow shrink-0">
+            <div>
+              <div class="text-xs uppercase tracking-wider text-indigo-200 font-semibold">Skor Akhir</div>
+              <div class="font-display text-4xl font-extrabold">${finalScore}<span class="text-lg text-indigo-200 font-bold">/100</span></div>
+            </div>
+            <div class="h-10 w-px bg-white/20"></div>
+            <div class="text-xs space-y-1">
+              <div class="font-bold text-emerald-300">✓ ${totalCorrect} Benar</div>
+              <div class="font-bold text-rose-200">✕ ${10 - totalCorrect - unanswered} Salah</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="font-display font-bold text-sm uppercase tracking-wider text-slate-500">Rincian Performa Per Kategori</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            ${categoryCardsHtml}
+          </div>
+        </div>
+
+        <div class="pt-2 flex flex-wrap items-center justify-end gap-3">
+          <button onclick="resetAssessment()" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-bold shadow-sm transition flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            <span>Ulangi Asesmen</span>
+          </button>
+        </div>
+      `;
+    }
+
+    function showSummaryModal() {
+      renderSummaryCard();
+      const summaryCard = document.getElementById('quiz-summary-card');
+      summaryCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function resetAssessment() {
+      appState.userAnswers = Array(10).fill(null);
+      appState.currentQuestionIdx = 0;
+      document.getElementById('quiz-summary-card').classList.add('hidden');
+      updateHeaderMetrics();
+      renderQuizNavPills();
+      renderCurrentQuestion();
+      showToast('Asesmen telah diulang. Selamat mengerjakan kembali!', 'info');
+    }
+
+    // =========================================================================
+    // 5. INITIALIZATION ON PAGE LOAD
+    // =========================================================================
+    window.addEventListener('DOMContentLoaded', () => {
+      updateHeaderMetrics();
+      renderSimControls();
+      renderQuizNavPills();
+      renderCurrentQuestion();
+    });
+
+    window.addEventListener('load', () => {
+      renderMath();
+      if (appState.activeTab === 'simulasi') {
+        resizeAndDrawCanvas();
+      }
+    });
+  </script>
+</body>
+</html>
